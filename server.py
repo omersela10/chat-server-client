@@ -363,7 +363,7 @@ def server():
         client_thread.start()
 
 def main():
-    print("Main(), Omer Sela")
+    print("Main(), Omer Sela Server")
     connect_DB()
     server()
 
