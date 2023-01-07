@@ -6,6 +6,7 @@ PORT = 5000  # Port to listen on (non-privileged ports are > 1023)
 FORMAT = 'utf-8'  # Define the encoding format of messages from client-server
 ADDR = (HOST, PORT)  # Creating a tuple of IP+PORT
 
+# Client is here!
 
 # hello world!
 def send(server,client_socket):
