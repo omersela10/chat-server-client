@@ -28,6 +28,18 @@ The server uses a simple text-based protocol for communication with clients. Eac
 - `join-group group_id password`: Join the group with the specified ID and password.
 - `send-to-group group_id message`: Send the specified message to all members of the group.
 
+## functions
+The server has several functions that handle various tasks. Here is a summary of these functions:
+
+- `connect_DB()` : Connects to the MySQL database and retrieves the list of groups and users.
+- `add_user_to_db(user1)` : Adds a new user to the MySQL database.
+-`add_group_to_db(group_id,group_password)` : Adds a new group to the MySQL database.
+-`login_user(mail_address,password)` : Logs in an existing user with the specified email and password.
+-`register_user(client_name,mail_address,password)` : Registers a new user with the specified name, email, and password.
+-`create_group(group_id,group_password)` : Creates a new group with the specified ID and password.
+-`join_group(group_id,group_password)` : Adds the current user to the group with the specified ID and password.
+-`send_to_group(group_id,message)` : Sends the specified message to all members of the group.
+
 
 # Client
 
