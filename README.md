@@ -44,3 +44,22 @@ To run the client, simply run `python client.py`. The client will connect to the
 ## Note
 
 Make sure that the server is running before starting the client. The client will not be able to connect to the server if it is not running.
+
+# Databse
+
+## Example MySql - GroupChat
+
+| Field      | Type         | Null | Key | Default | Extra |
+|------------|--------------|------|-----|---------|-------|
+| id         | int(11)      | NO   | PRI | NULL    |       |
+| name       | varchar(255) | YES  |     | NULL    |       |
+| password   | varchar(255) | YES  |     | NULL    |       |
+
+## Example MySql - Users
+
+| Field      | Type         | Null | Key | Default | Extra |
+|------------|--------------|------|-----|---------|-------|
+| id         | int(11)      | NO   | PRI | NULL    |       |
+| name       | varchar(255) | YES  |     | NULL    |       |
+| email      | varchar(255) | YES  |     | NULL    |       |
+| password   | varchar(255) | YES  |     | NULL    |       |
