@@ -7,6 +7,7 @@ FORMAT = 'utf-8'  # Define the encoding format of messages from client-server
 ADDR = (HOST, PORT)  # Creating a tuple of IP+PORT
 
 
+# hello world!
 def send(server,client_socket):
     while True:
         try:
