@@ -1,0 +1,6 @@
+{
+    "chat_manual": ["Type 'exit chat!' to leave the chat room",
+    "Type 'exit server!' to exit the server",
+    "Type /'active_user_name':'write your private message here' for private messages",
+    "Type '/chat members' to get active chat members"]
+}

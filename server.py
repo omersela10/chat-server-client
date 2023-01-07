@@ -4,6 +4,7 @@ import threading
 import re
 import mysql.connector
 import pymysql
+import json
 
 
 
@@ -158,12 +159,26 @@ def PriveteChat(data,massage,client_socket, client_address,group_id,user1):
     return bol
 
 
+def getCommands(commandName):
+# Open the commands.json file and read its contents
+    with open("commands.json", "r") as f:
+        commands = json.load(f)
+# Access the value of the "command" key
+    command = commands[commandName]
+    message=""
+    for i in command:
+        message+=i+"\n"
+    return message
+
 
 def chat(client_socket, client_address,group_id,user1):
     print("chat()")
-    message="Welcome to the chat room number "+str(group_id)+" !"+"\n (type 'exit chat!' to exit)"
-    client_socket.send(message.encode(FORMAT))
+    message="Welcome to the chat room number "+str(group_id)+" !"+"\n"
+    
 
+    client_socket.send(message.encode(FORMAT))
+    message = getCommands("chat_manual")
+    client_socket.send(message.encode(FORMAT))
     message="user "+user1.name+" join the chat!"
     for user in groups_to_users[str(group_id)].keys():
         if user.client_socket!=user1.client_socket:
