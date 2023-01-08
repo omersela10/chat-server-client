@@ -24,6 +24,7 @@ PORT = 5000  # Port to listen
 FORMAT = 'utf-8'  # Encoding format of messages from client-server
 ADDR = (HOST, PORT)  # Creating a tuple of IP+PORT
 server_socket = socket(AF_INET, SOCK_STREAM)  # Creating a socket object
+lock=threading.Lock() # Lock
 
 group_list = {"0": "123456"}#list of groups and their passwords {stirng:string}
 groups_to_users = {"0":{}}#dictionary of group to socket   {string:{User:bool}}
@@ -40,6 +41,7 @@ def connect_DB():
     try:
         while(flagUseDB[0]==True):
             continue
+        lock.acquire()
         flagUseDB[0]=True
         cnx = mysql.connector.connect(user='root', password='123456',host='127.0.0.1',database='mydatabase',port=3306)
         cursor = cnx.cursor()
@@ -57,6 +59,7 @@ def connect_DB():
         print(group_list)
         print(users_list)
         flagUseDB[0]=False
+        lock.release()
         return True
     except:
         print("can't connect to DB")
@@ -66,6 +69,7 @@ def add_user_to_db(user1):
     print("add_user_to_db()")
     while (flagUseDB[0]==True):
         continue
+    lock.acquire()
     flagUseDB[0]=True
     cnx = mysql.connector.connect(user='root', password='123456',host='127.0.0.1',database='mydatabase',port=3306)
     cursor = cnx.cursor()
@@ -74,12 +78,14 @@ def add_user_to_db(user1):
     cursor.execute(sql,val)
     cnx.commit()
     flagUseDB[0]=False
+    lock.release()
 
     print("end add_user_to_db()")
 def add_group_to_db(group_id,group_password):
     print("add_group_to_db()")
     while (flagUseDB[0]==True):
         continue
+    lock.acquire()
     flagUseDB[0]=True
     cnx = mysql.connector.connect(user='root', password='123456',host='127.0.0.1',database='mydatabase',port=3306)
     cursor = cnx.cursor()
@@ -88,12 +94,14 @@ def add_group_to_db(group_id,group_password):
     cursor.execute(sql,val)
     cnx.commit()
     flagUseDB[0]=False
+    lock.release()
 
 def create_group_DB(client_socket, client_address,group_password):
     print("create_group_DB()")
     maxID=0
     while flagUseGroupList[0]==True:
         continue
+    lock.acquire()
     flagUseGroupList[0]=True
     for i in group_list.keys():
         if int(i)>maxID:
@@ -102,6 +110,7 @@ def create_group_DB(client_socket, client_address,group_password):
 
     group_list[str(count_group)] = group_password
     flagUseGroupList[0]=False
+    lock.release()
     add_group_to_db(str(count_group),group_password)
     return str(count_group)
 
@@ -309,10 +318,12 @@ def sign_in(client_socket, client_address):
 
         while flagUseUsersTable[0]==True:
             continue
+        lock.acquire()
         flagUseUsersTable[0]=True
         if client_mail not in users_list.keys():
             users_list[client_mail]=client_password
             flagUseUsersTable[0]=False
+            lock.release()
             client_socket.send("signed up successfully.".encode(FORMAT))
             client_socket.send("Enter your name:".encode(FORMAT))
             client_name = client_socket.recv(1024).decode(FORMAT)
@@ -323,6 +334,7 @@ def sign_in(client_socket, client_address):
             
         else:
             flagUseUsersTable[0]=False
+            lock.release()
             client_socket.send("This e-mail is already exist, please try again...".encode(FORMAT))
 
 def client_handler(client_socket, client_address):
